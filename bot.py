@@ -26,9 +26,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # MongoDB setup
-client = MongoClient(MONGO_URI)
-db = client['web3_updates']
-subscribers_collection = db['subscribers']
+# client = MongoClient(MONGO_URI)
+# db = client['web3_updates']
+# subscribers_collection = db['subscribers']
+
+try:
+    client = MongoClient(MONGO_URI, tls=True, tlsAllowInvalidCertificates=True)
+    db = client['web3_updates']
+    subscribers_collection = db['subscribers']
+except Exception as e:
+    logger.error(f"Failed to connect to MongoDB: {e}")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_id = update.message.chat_id
