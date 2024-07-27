@@ -3,3 +3,4 @@ hypercorn
 schedule
 python-dotenv
 requests
+pymongo
